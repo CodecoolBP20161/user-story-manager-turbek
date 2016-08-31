@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        td, th {border: 1px solid #993514; padding: 0.1em 2em;}
+    </style>
+    <meta charset="UTF-8">
+    <title>{% block title %}User Story Manager{% endblock %}</title>
+</head>
+{% block body %}
+<h1>User Story Manager</h1>
+<p><a href="{{ url_for('add_entry') }}"><input type="submit" value="Add a new user story"></a></p>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Story Title</th>
+        <th>User Story</th>
+        <th>Acceptance Criteria</th>
+        <th>Business Value</th>
+        <th>Estimation</th>
+        <th>Status</th>
+    </tr>
+
+{% for entry in entries %}
+
+    <tr>
+        <td>{{ entry.id }}</td>
+        <td>{{ entry.title }}</td>
+        <td>{{ entry.story }}</td>
+        <td>{{ entry.criteria }}</td>
+        <td>{{ entry.value }}</td>
+        <td>{{ entry.estimation }}</td>
+        <td>{{ entry.status }}</td>
+        <td>
+            <a href="/story/{{ entry.id }}">
+            <img src="http://findicons.com/files/icons/1672/mono/32/pencil.png">
+            </a><br>
+            <form action="{{ url_for('delete_row') }}" method=post>
+                <input type="image" name="bin" value={{ entry.id }} src="http://findicons.com/files/icons/1521/kidcon_os/32/trash_empty.png">
+            </form>
+        </td>
+    </tr>
+{% else %}
+    <p><em>Unbelievable.  No entries here so far</em></p>
+{% endfor %}
+</table>
+{% endblock %}
+</html>
