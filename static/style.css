@@ -1,0 +1,28 @@
+body {
+    background-color: #265786;
+}
+
+.container{
+    background-color: #338eb5;
+    border-radius: 5px;
+}
+
+
+th {
+    background-color: #276d8c;
+}
+
+span.glyphicon.glyphicon-pencil {
+    color: #000;
+}
+
+button {
+    background: none;
+    border: none;
+    padding: none;
+    outline: none;
+}
+
+a {
+    color: black;
+}

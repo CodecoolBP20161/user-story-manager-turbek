@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        {% if title == "new" %}
+            User Story Manager  - Add new Story
+        {% elif title == "edit" %}
+            User Story Manager - Edit Story
+        {% elif title == "home" %}
+            User Story Manager
+        {% endif %}
+    </title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ul class="nav nav-tabs">
+                    <li {% if title == "home" %} class="active" {% endif %}><a href={{ url_for('show_entries') }}><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                    <li {% if title == "new" %} class="active" {% endif %}><a href="{{ url_for('add_entry') }}"><span class="glyphicon glyphicon-plus"></span> New</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% block body %}{% endblock %}
+</body>

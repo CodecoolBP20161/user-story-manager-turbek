@@ -1,62 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% if title == "new" %}
-    <title>User Story Manager  - Add new Story</title>
-    {% elif title == "edit" %}
-    <title>User Story Manager - Edit Story</title>
-    {% endif %}
-</head>
-<body>
-{% if title == "new" %}
-<h1>User Story Manager - Add new Story</h1>
-<form action="/story" method="post">
-    <p>Story Title:<br>
-    <input type="text" size=51 name="title"></p>
-    <p>User Story:<br>
-    <textarea name="story" rows=5 cols=40></textarea></p>
-    <p>Acceptance Criteria:<br>
-    <textarea name="criteria" rows=5 cols=40></textarea></p>
-    <p>Business Value:<br>
-    <input type="number" name="value" min="100" max="1500" step="100" value="500"></p>
-    <p>Estimation:<br>
-    <input type="number" name="estimation" min="0.5" max="40" step="0.5" value="2"></p>
-    <p>Status:<br>
-    <select name="status">
-        <option value="planning">Planning</option>
-        <option value="todo">To Do</option>
-        <option value="inprogress">In Progress</option>
-        <option value="review">Review</option>
-        <option value="done">Done</option>
-    </select></p>
-    <button type="submit" value="Submit">Save</button>
-</form>
-{% elif title == "edit" %}
-<h1>User Story Manager - Edit Story</h1>
-<form action="/story/<story_id>" method="post">
-{% for entry in entries %}
-    <p>Story Title:<br>
-    <input type="text" size=51 name="title" value={{ entry.title }}></p>
-    <p>User Story:<br>
-    <textarea name="story" rows=5 cols=40>{{ entry.story }}</textarea></p>
-    <p>Acceptance Criteria:<br>
-    <textarea name="criteria" rows=5 cols=40>{{ entry.criteria }}</textarea></p>
-    <p>Business Value:<br>
-    <input type="number" name="value" min="100" max="1500" step="100" value={{ entry.value }}></p>
-    <p>Estimation:<br>
-    <input type="number" name="estimation" min="0.5" max="40" step="0.5" value={{ entry.estimation }}></p>
-    <p>Status:<br>
-    <select name="status">
-        <option selected>{{ entry.status }}</option>
-        <option value="planning">Planning</option>
-        <option value="todo">To Do</option>
-        <option value="inprogress">In Progress</option>
-        <option value="review">Review</option>
-        <option value="done">Done</option>
-    </select></p>
-    <button type="submit" value="Submit">Update</button>
-</form>
-{% endfor %}
-{% endif %}
-</body>
+{% extends "index.html" %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>{% if title == "new" %}
+                    User Story Manager - Add new Story
+                {% elif title == "edit" %}
+                    User Story Manager - Edit Story
+                {% endif %}
+            </h1>
+                <form action="/story{% if title == "edit" %}/<story_id>{% endif %}" method="post">
+                    <div class="form-group">
+                        <label for="story_title">Story Title</label>
+                        <input class="form-control" type="text" name="title" {% if title == "edit" %}value="{{ entry.title }}"{% endif %} placeholder="Story title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user_story">User Story</label>
+                        <textarea class="form-control" name="story" rows=5 cols=40 placeholder="User story">{% if title == "edit" %}{{ entry.story }}{% endif %}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="criteria">Acceptance Criteria</label>
+                        <textarea class="form-control" name="criteria" rows=5 cols=40 placeholder="Acceptance Criteria">{% if title == "edit" %}{{ entry.criteria }}{% endif %}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="basic-addon1">Business Value</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">$</span>
+                            <input class="form-control" type="number" name="value" min="100" max="1500" step="100" {% if title == "new" %}value="500"{% elif title == "edit" %}value={{ entry.value }}{% endif %}>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="basic-addon2">Estimation</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-time"></span></span>
+                            <input class="form-control" type="number" name="estimation" min="0.5" max="40" step="0.5" {% if title == "new" %}value="2"{% elif title == "edit" %}value={{ entry.estimation }}{% endif %}>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" name="status">
+                            {% if title == "edit" %}<option selected value="{{ entry.status }}">{{ entry.status }}</option>{% endif %}
+                            <option value="Planning">Planning</option>
+                            <option value="To do">To Do</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Review">Review</option>
+                            <option value="Done">Done</option>
+                        </select>
+                    </div>
+
+                    <p></p><input class="btn-default" type="submit" value="Submit"></p>
+                </form>
+        </div><!-- col-xs-12 -->
+    </div><!-- row -->
+</div><!-- container -->
+{% endblock %}
 </html>

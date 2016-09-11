@@ -1,5 +1,4 @@
-drop table if exists entries;
-create table entries (
+create table if not EXISTS entries (
   id integer primary key autoincrement,
   title text not null,
   story text not null,

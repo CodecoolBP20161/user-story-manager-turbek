@@ -58,7 +58,7 @@ def show_entries():
     db = get_db()
     cur = db.execute('SELECT * FROM entries ORDER BY id DESC')
     entries = cur.fetchall()
-    return render_template('list.html', entries=entries)
+    return render_template('list.html', entries=entries, title='home')
 
 
 @app.route('/story', methods=['GET', 'POST'])
@@ -82,7 +82,8 @@ def show_story(story_id):
     db = get_db()
     cur = db.execute('SELECT * FROM entries WHERE id = {}'.format(story_id))
     entries = cur.fetchall()
-    return render_template('form.html', title='edit', entries=entries)
+    for entry in entries:
+        return render_template('form.html', title='edit', entry=entry)
 
 
 @app.route('/story/<story_id>', methods=['POST'])
@@ -99,7 +100,7 @@ def edit_story(story_id):
 @app.route('/delete', methods=['POST'])
 def delete_row():
     db = get_db()
-    db.execute("DELETE FROM entries WHERE id=?", (request.form['bin']))
+    db.execute("DELETE FROM entries WHERE id=?", (request.form['bin'],))
     db.commit()
     return redirect(url_for('show_entries'))
 
